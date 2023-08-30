@@ -22,7 +22,9 @@ import org.nanoboot.ftps.commands.HelpCommand;
 import org.nanoboot.ftps.commands.VersionCommand;
 import java.util.HashSet;
 import java.util.Set;
+import org.nanoboot.ftps.commands.MkdirCommand;
 import org.nanoboot.ftps.commands.UploadCommand;
+import org.nanoboot.ftps.commands.UploadFilesCommand;
 
 /**
  * @author <a href="mailto:robertvokac@nanoboot.org">Robert Vokac</a>
@@ -40,6 +42,8 @@ public class Main {
         commandImplementations.add(new HelpCommand());
         commandImplementations.add(new VersionCommand());
         commandImplementations.add(new UploadCommand());
+        commandImplementations.add(new MkdirCommand());
+        commandImplementations.add(new UploadFilesCommand());
         
         Command foundCommand = null;
         for(Command e:commandImplementations) {

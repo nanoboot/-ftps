@@ -32,38 +32,37 @@ import org.nanoboot.ftps.FtpsCredentials;
  *
  * @author pc00289
  */
-public class UploadCommand implements Command {
+public class MkdirCommand implements Command {
 
-    public UploadCommand() {
+    public MkdirCommand() {
     }
 
     @Override
     public String getName() {
-        return "upload";
+        return "mkdir";
     }
 
     @Override
     public void run(FtpsArgs ftpsArgs) {
-        System.out.println("upload");
+        System.out.println("mkdir");
         if(ftpsArgs.getArgs().size() < 2) {
-            throw new RuntimeException("Upload argument expects credentials and a file name as the arguments.");
+            throw new RuntimeException("Upload argument expects credentials and a directory name as the arguments.");
         }
         FtpsCredentials config = new FtpsCredentials(ftpsArgs.getArgs().get(0));
-        String fileName = ftpsArgs.getArgs().get(1);
-        File file = new File(fileName);
-        System.out.println("Going to upload file: " + file.getAbsolutePath());
+        String dirName = ftpsArgs.getArgs().get(1);
+        
+        System.out.println("Going to create directory: " + dirName);
         FTPSClient ftps = new FTPSClient();
         try {
             ftps.connect(config.getHost(), config.getPort());
             ftps.login(config.getUser(), config.getPassword());
             ftps.changeWorkingDirectory(config.getWorkingDir());
-            FileInputStream fileInputStream = new FileInputStream(fileName);
+            
             ftps.enterLocalPassiveMode();
             ftps.setFileType(FTP.BINARY_FILE_TYPE);
-            boolean uploadWasSuccessful=ftps.storeFile(file.getName(), fileInputStream);
-            fileInputStream.close();
-            //System.out.println(config.toString());
-            System.out.println("Upload was " + (uploadWasSuccessful ? "successful" : "unsuccessful"));
+            boolean mkdirWasSuccessful=ftps.makeDirectory(dirName);
+            
+            System.out.println("Creating directory was " + (mkdirWasSuccessful ? "successful" : "unsuccessful"));
             
             ftps.disconnect();
         } catch (IOException ex) {

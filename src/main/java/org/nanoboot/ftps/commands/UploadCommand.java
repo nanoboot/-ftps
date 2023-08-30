@@ -56,7 +56,10 @@ public class UploadCommand implements Command {
         try {
             ftps.connect(config.getHost(), config.getPort());
             ftps.login(config.getUser(), config.getPassword());
-            ftps.changeWorkingDirectory(config.getWorkingDir());
+            boolean changeDirResult = ftps.changeWorkingDirectory(config.getWorkingDir());
+            if(!changeDirResult) {
+                throw new RuntimeException("Changing directory failed: " + config.getWorkingDir());
+            }
             FileInputStream fileInputStream = new FileInputStream(fileName);
             ftps.enterLocalPassiveMode();
             ftps.setFileType(FTP.BINARY_FILE_TYPE);

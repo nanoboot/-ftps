@@ -56,7 +56,10 @@ public class MkdirCommand implements Command {
         try {
             ftps.connect(config.getHost(), config.getPort());
             ftps.login(config.getUser(), config.getPassword());
-            ftps.changeWorkingDirectory(config.getWorkingDir());
+            boolean changeDirResult = ftps.changeWorkingDirectory(config.getWorkingDir());
+            if(!changeDirResult) {
+                throw new RuntimeException("Changing directory failed: " + config.getWorkingDir());
+            }
             
             ftps.enterLocalPassiveMode();
             ftps.setFileType(FTP.BINARY_FILE_TYPE);

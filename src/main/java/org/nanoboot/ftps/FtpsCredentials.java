@@ -49,7 +49,7 @@ public class FtpsCredentials {
 
         this.host = array2[0];
         this.port = Integer.valueOf(array20[0]);
-        this.workingDir = array20.length < 2 ? "/" : array20[1];
+        this.workingDir = array20.length < 2 ? "/" : array2[1].substring(array20[0].length() + 1);
     }
 
 }
